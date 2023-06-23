@@ -1,0 +1,414 @@
+﻿@model ChatApplication.Models.ChatBoxModel
+@{
+    ViewBag.Title = "Chat";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="container">
+        <div class="left-sidebar">
+            <!--Header chat-->
+            <div class="header-chat">
+                <div class="user-avatar">
+                    <img src="@Url.Content("https://res.cloudinary.com/dpkxwb7kr/image/upload/v1680836786/" + GetPhoto(int.Parse(User.Identity.Name)))" alt="User Photo" class="img-cover" />
+
+                </div>
+                <div style="width:50%; font-weight:bold;">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a style=" font-size: 23px; margin-left: 0.5rem; ">@GetUsername(int.Parse(User.Identity.Name))</a>
+
+                    }
+                </div>
+                <ul class="icon-nav">
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a onclick="openListRoom()"><i class="fa-solid fa-user-group"></i></a></li>
+                        <li><a href="/User/EditProfile?id=@GetUserID(int.Parse(User.Identity.Name))" id="profile_link"><i class="fa-solid fa-user"></i></a></li>
+                        <li><a id="button-modal"><i class="fa-solid fa-gear"></i></a></li>
+                    }
+
+                </ul>
+
+            </div>
+            <!--Các tính năng phụ-->
+            <!--Search-->
+            <div class="search-chat">
+                <div>
+                    <input type="text" placeholder="Tìm kiếm" />
+                    <ion-icon name="search-outline"></ion-icon>
+                </div>
+            </div>
+            <!-- Chatlist-->
+            <div class="list-chat">
+                User List
+            </div>
+        </div>
+        <div class="right-sidebar">
+            <!--Header chat-->
+            <div class="header-chat">
+                <div style="margin-right:10px">
+                    <input type="checkbox" name="" class="switch-toggle" id="light-dark">
+                </div>
+            </div>
+            <!-- Chat box-->
+            <div class="custom-chatbox" >
+                <div class="welcome">
+                    <h2 style=" font-size: 32px;">Welcome</h2>
+                </div>
+
+                <div class="slideshow-container">
+
+                    <div class="mySlides fade">
+                        <div class="numbertext">1/3</div>
+                        <img src="~/Content/Images/HinhC.png" style="width: 700px; height: 500px ">
+                        
+                    </div>
+
+                    <div class="mySlides fade">
+                        <div class="numbertext">2/3</div>
+                        <img src="~/Content/Images/HinhB.png" style="width: 700px; height: 500px ">
+                        
+                    </div>
+
+                    <div class="mySlides fade">
+                        <div class="numbertext">3/3</div>
+                        <img src="~/Content/Images/HinhC.png" style="width: 700px; height: 500px ">
+                        
+                    </div>
+                </div>
+                <br>
+                <div style="text-align:center">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-setting" class="modal">
+
+        <!-- Modal content -->
+        <div class="chat-settings">
+            <div class="header">
+                <h1>Cài đặt</h1>
+                <span class="close">&times;</span>
+
+            </div>
+            <div class="menu">
+                <ul>
+                    <li><a href="Caidatchung.html"><i class="fas fa-cog"></i>Cài đặt chung</a></li>
+                    <li><a href="Giaodien.html"><i class="fas fa-paint-brush"></i>Giao diện</a></li>
+                    <li><a href="Thongbao.html"><i class="fas fa-bell"></i>Thông báo</a></li>
+                    <li><a href="Tinnhan.html"><i class="fas fa-envelope"></i>Tin nhắn</a></li>
+                    <li><a href="/User/EditProfile?id=@GetUserID(int.Parse(User.Identity.Name))"><i class="fas fa-toolbox"></i>Chỉnh sửa thông tin cá nhân</a></li>
+                    <li><a href="@Url.Action("Logout", "User")"><ion-icon name='log-out'></ion-icon>Đăng xuất</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+}
+<link href="~/Content/Css/HomeChat.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+<link href="~/Content/Css/Settings.css" rel="stylesheet" />
+@section scripts{
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script type="module"
+            src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule
+            src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <script src="https://kit.fontawesome.com/77061b2802.js" crossorigin="anonymous"></script>
+
+
+    <!--Slide show/dark-->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            //lấy giá trị 'dark-mode' từ local storage lưu vào biến darkMode
+            var darkMode = localStorage.getItem('dark-mode');
+            var checkboxToggle = document.getElementById('light-dark');
+            if (darkMode && darkMode == "1") {
+                checkboxToggle.checked = true;
+                document.body.classList.add('dark');
+            } else {
+                checkboxToggle.checked = false;
+                document.body.classList.remove('dark');
+            }
+
+            checkboxToggle.addEventListener("change", setToggle);
+
+            function setToggle() {
+                var darkMode = localStorage.getItem('dark-mode');
+                var checkboxToggle = document.getElementById('light-dark');
+                if (checkboxToggle.checked) {
+                    localStorage.setItem("dark-mode", "1");
+                    document.body.classList.add('dark');
+                } else {
+                    localStorage.setItem("dark-mode", "0");
+                    document.body.classList.remove('dark');
+                }
+            }
+        });
+
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+            setTimeout(showSlides, 2000); // Change image every 2 seconds
+        }
+
+    </script>
+    <!--Search Users-->
+    <script>
+        function searchUser() {
+            var input, filter, chatlist, boxes, names, i;
+            input = document.querySelector(".search-chat input");
+            filter = input.value.toUpperCase();
+            chatlist = document.querySelector(".list-chat");
+            boxes = chatlist.querySelectorAll(".box-chat");
+            for (i = 0; i < boxes.length; i++) {
+                names = boxes[i].querySelector(".headerlist h3");
+                if (names.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    boxes[i].style.display = "";
+                } else {
+                    boxes[i].style.display = "none";
+                }
+            }
+        }
+        var input = document.querySelector(".search-chat input");
+        input.addEventListener("keyup", searchUser);
+
+    </script>
+
+
+    <!---->
+    <script>
+        function openChatBox(toUserId) {
+			$.ajax({
+				url: '/Home/GetChatBox',
+				type: 'POST',
+				datatype: 'JSON',
+				contentType: 'application/json;charset=utf-8;',
+				data: JSON.stringify({ toUserId: toUserId }),
+				async: true,
+				success: function (res) {
+					if ($('#DVChatBox-' + toUserId).length === 0) {
+						$('.right-sidebar').empty();
+						$('.right-sidebar').append(res);
+                    }
+                    else {
+						$('.right-sidebar').find('#DVChatBox-' + toUserId).replaceWith(res);
+					}
+					$('#DVChatBox-' + toUserId).find('.chatbox').scrollTop(999999999999);
+
+				}
+			});
+        }
+        $(function () {
+            var hub = $.connection.chatHub;
+            hub.client.broadcastUsersToChat = function (listUsers) {
+                $('.list-chat').html('');
+                for (var i = 0; i < listUsers.length; i++) {
+                    console.log(listUsers);
+                    let online = listUsers[i].IsOnline ? '<ion-icon name="ellipse"></ion-icon>' : "";
+                    $('.list-chat').append('<div id="UserBox-' + listUsers[i].UserId + '" class="box-chat" onclick="openChatBox(' + listUsers[i].UserId + ')">\
+                                    <div class="img-userchat">\
+                                    <img src="' + '@Url.Content("https://res.cloudinary.com/dpkxwb7kr/image/upload/v1680836786/")' + listUsers[i].Photo + '" class="img-cover"/>\
+                                    </div >\
+                                    <div class="details"><div class="headerlist"><h3>'
+                        + listUsers[i].FullName + '</h3>\
+                                    <p class="time"></p></div >\
+                                    <div class="message">\
+                                    <p></p>\
+                                    <span class="is-online">'+ online +'</span>\
+                                    </div></div></div>');
+                }
+            };
+            hub.client.broadcastOnlineUser = function (userId) {
+                $('.list-chat').find('#UserBox-' + userId + '').find('span[class="is-online"]').html('<ion-icon name="ellipse"></ion-icon>')
+            }
+            hub.client.broadcastOfflineUser = function (userId) {
+                $('.list-chat').find('#UserBox-' + userId + '').find('span[class="is-online"]').html('')
+            }
+            hub.connection.start().done(function () {
+                hub.server.getUsersToChat();
+            });
+
+            hub.client.broadcastRecieveMessage = function (userId, message) {
+                $('#DVChatBox-' + userId).find('.chatbox').append('<div class="mess frnmess"><p>' + message + '<br /><span></span></p></div>');
+            }
+
+            hub.client.broadcastRecieveMessageGroup = function (toGroupId, message) {
+                $('#Group-' + toGroupId).find('.chatbox').append('<div class="mess frnmess"><p>' + message + '<br /><span></span></p></div>');
+            }
+            
+        });
+        //darkmode
+        var checkbox_toggle = document.getElementById('light-dark');
+        checkbox_toggle.addEventListener('change', function () {
+            // Thêm class dark cho body
+            document.body.classList.toggle('dark');
+        });
+
+        var modal = document.getElementById("modal-setting");
+
+        var btn = document.getElementById("button-modal");
+
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+         }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        $(document).ready(function () {
+            $('#profile_link').click(function () {
+                var id = @GetUserID(int.Parse(User.Identity.Name)); // thay "your_id" bằng ID bạn muốn lưu trữ
+                localStorage.setItem('userIdProfile', id);
+            });
+        });
+
+
+
+        function openListRoom() {
+            $.ajax({
+                url: '/Home/GetRoom',
+                type: 'POST',
+                datatype: 'JSON',
+                contentType: 'application/json;charset=utf-8;',
+                data: JSON.stringify(),
+                async: true,
+                success: function (res) {
+                    $('.list-chat').empty();
+                    $('.list-chat').append(res);
+                }
+            });
+        }
+
+        var popup;
+        function PopupForm(url) {
+            var formDiv = $('<div/>');
+            $.get(url).done(function (response) {
+                formDiv.html(response);
+
+                popup = formDiv.dialog({
+                    autoOpen: true,
+                    resizable: false,
+                    title: '',
+                    height: 300,
+                    width: 500,
+                    close: function () {
+                        popup.dialog('destroy').remove();
+                    }
+                });
+            });
+        }
+
+        function openChatGroup(toGroupId) {
+            $.ajax({
+                url: '/Home/GetGroupChat',
+                type: 'POST',
+                datatype: 'JSON',
+                contentType: 'application/json;charset=utf-8;',
+                data: JSON.stringify({ toGroupId: toGroupId }),
+                async: true,
+                success: function (res) {
+                    if ($('#Group-' + toGroupId).length !== 0) {
+                        $('.right-sidebar').empty();
+                        $('.right-sidebar').append(res);
+  
+                    }
+                    }
+            });
+            
+        }
+
+
+        function sendMessageGroup(element, e) {
+            let message = $(element).val();
+            let toGroupId = $(element).closest('.chat-box').find('#toGroupId').val();
+            let icon = $('#selected-icon').val();
+            
+            if (e.which === 13 && message.trim() !== '') { // kiểm tra tin nhắn không được trống
+                $.ajax({
+                    url: '/Home/SendMessageGroup',
+                    type: 'POST',
+                    datatype: 'JSON',
+                    contentType: 'application/json;charset=utf-8;',
+                    data: JSON.stringify({ toGroupId: toGroupId, message: message, icon: icon }),
+                    async: true,
+                    success: function (res) {
+                        if (res === true) {
+                            let messageWithIcon = message;
+                            if (icon) {
+                                messageWithIcon += ' <img src="' + icon + '" />';
+                            }
+                            $(element).closest('#Group-' + toGroupId).find('.chatbox').append('<div class="mess mymess"><p>' + messageWithIcon + '<br /><span></span></p></div>');
+                            $(element).closest('#Group-' + toGroupId).find('.chatbox').scrollTop(999999999999);
+                            $(element).val('');
+                            var hub = $.connection.chatHub;
+                            hub.client.broadcastRecieveMessageGroup = function (toGroupId, message) {
+                                $('#Group-' + toGroupId).find('.chatbox').append('<div class="mess frnmess"><p>' + message + '<br /><span></span></p></div>');
+                            }
+                        }
+                    }
+                });
+            }
+            else if (e.which === 13 && message.trim() === '') { //lỗi nếu tin nhắn trống
+                alert('Please enter a message.');
+            }
+        }
+    </script>
+}
+
+
+
+@functions{
+    DbChat _context = new DbChat();
+    public string GetUsername(int userId)
+    {
+        return _context.Users.FirstOrDefault(x => x.ID == userId)?.FullName;
+    }
+    public int GetUserID(int userId)
+    {
+        return _context.Users.FirstOrDefault(x => x.ID == userId)?.ID ?? 0;
+
+    }
+    public string GetPhoto(int userId)
+    {
+        return _context.Users.FirstOrDefault(x => x.ID == userId)?.Photo;
+    }
+}

@@ -1,0 +1,179 @@
+* {
+    font-family: Open Sans, sans-serif;
+    font-size: 14px;
+}
+
+@import url('https://rsms.me/inter/inter-ui.css');
+
+:root {
+    --color: #48dbfb
+}
+
+::selection {
+    background: #2D2F36;
+}
+
+::-moz-selection {
+    background: #2D2F36;
+}
+
+body {
+    background: white;
+    margin: 0;
+    padding: 20px;
+}
+
+.page {
+    background-image: url("https://i.pinimg.com/564x/59/f7/e3/59f7e3c963993ca2ce195b045fc7657f.jpg");
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 40px);
+    position: absolute;
+    place-content: center;
+    width: calc(100% - 40px);
+}
+
+@media (max-width: 767px) {
+    .page {
+        height: auto;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+.container {
+    display: flex;
+    height: 320px;
+    margin: 0 auto;
+    width: 640px;
+}
+
+@media (max-width: 767px) {
+    .container {
+        flex-direction: column;
+        height: 630px;
+        width: 320px;
+    }
+}
+
+.left {
+    background: var(--color);
+    height: calc(100% - 40px);
+    top: 20px;
+    position: relative;
+    width: 50%;
+}
+
+@media (max-width: 767px) {
+    .left {
+        height: 100%;
+        left: 20px;
+        width: calc(100% - 40px);
+        max-height: 270px;
+    }
+}
+
+.login {
+    font-size: 50px;
+    font-weight: 900;
+    margin: 50px 40px 40px;
+}
+
+.eula {
+    color: white;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 40px;
+}
+
+.right {
+    background: #474A59;
+    box-shadow: 0px 0px 40px 16px rgba(0,0,0,0.22);
+    color: #F1F1F2;
+    position: relative;
+    width: 70%;
+}
+
+@media (max-width: 767px) {
+    .right {
+        flex-shrink: 0;
+        height: 125%;
+        width: 50%;
+        max-height: 350px;
+    }
+}
+
+svg {
+    position: absolute;
+    width: 320px;
+}
+
+path {
+    fill: none;
+    stroke: url(#linearGradient);
+    stroke-width: 4;
+    stroke-dasharray: 240 1386;
+}
+
+.form {
+    margin: 30px;
+    position: absolute;
+    width: 70%;
+    margin-left: 50px;
+}
+
+label {
+    color: #c2c2c5;
+    display: block;
+    font-size: 14px;
+    height: 16px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+input {
+    border: 1px solid #ced4da;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    outline: none !important;
+    width: 100%;
+    border-radius: 7px;
+}
+
+    input[type=submit] {
+        margin-top: 10px;
+        transition: color 300ms;
+        background-color: var(--color);
+    }
+
+        input[type=submit]:active {
+            background-color: #0c8aa6;
+        }
+
+#exampleCheck1 {
+    margin-top: 0;
+    border: none;
+}
+
+    #exampleCheck1:checked[type=checkbox] {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+        border: none;
+    }
+
+    #exampleCheck1:checked {
+        background-color: var(--color);
+        border: none;
+    }
+
+#fg {
+    float: right;
+    color: darkgrey;
+    text-decoration: none;
+}
+
+#crn {
+    color: darkgrey;
+    text-decoration: none;
+    margin-left: 0;
+}

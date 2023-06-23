@@ -1,0 +1,226 @@
+﻿:root {
+    --ff: "Montserrat", sans-serif;
+    --color: #48dbfb;
+    --color-white: white;
+    --color-bg: #ccc;
+    --fz-sm: 13px;
+    --fz-md: 15px;
+    --fz-lg: 18px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--ff);
+    list-style: none;
+    outline: none;
+}
+
+
+/*scroll bar*/
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color);
+    border-radius: 5px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+/*scroll bar*/
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0.25rem !important;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+/*content*/
+/*img*/
+body {
+    background-color: var(--color-bg) !important
+}
+
+.card-info .card-body {
+    display: flex;
+    flex-direction: column;
+    transition: all 0.5s ease-in-out;
+}
+
+    .card-info .card-body .border-img {
+        border-radius: 50%;
+        aspect-ratio: 1/1;
+        width: 110px;
+        border: 3px solid var(--color);
+        position: relative;
+        margin: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: rotate 4s linear infinite;
+    }
+
+    .card-info .card-body .profile-user-img {
+        position: absolute;
+        border-radius: 50%;
+        aspect-ratio: 1/1;
+        width: 100px;
+        object-fit: cover;
+        margin: 1rem;
+    }
+
+.see-more {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+    .see-more .fas {
+        background-color: var(--color) !important;
+        font-size: var(--fz-sm);
+        font-weight: bold !important;
+        transition: 3 all ease-in-out;
+        margin: 1rem 0;
+        outline: none;
+        padding: 0.5rem;
+        border-radius: 50%;
+        aspect-ratio: 1/1;
+        font-size: var(--fz-md) !important;
+        cursor: pointer;
+    }
+
+        .see-more .fas:hover {
+            background-color: var(--color-white) !important;
+            border: 1px solid var(--color);
+            transition: 3 all ease-in-out;
+        }
+/*info*/
+
+.list-group-item {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 2px solid var(--color) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+}
+
+.title-list,
+span {
+    font-size: var(--fz-sm);
+}
+
+.btn-profile-edit {
+    background-color: var(--color) !important;
+    font-size: var(--fz-sm) !important;
+    font-weight: bold !important;
+    transition: all 3s ease-in-out;
+}
+
+    .btn-profile-edit:hover {
+        background-color: var(--color-white) !important;
+        border: 2px solid var(--color);
+        transition: all 3s ease-in-out;
+    }
+
+/*message activity*/
+.content .card-message {
+    height: 500px;
+    transition: all 0.5s ease-in-out;
+}
+
+    .content .card-message .message {
+        overflow-y: scroll;
+        height: inherit;
+    }
+
+    .content .card-message .title-message {
+        background-color: var(--color);
+        border-top-right-radius: 0.5rem;
+        border-top-left-radius: 0.5rem;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+        cursor: pointer;
+    }
+
+    .content .card-message .message .user-block {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        transition: all 1s ease-in-out;
+    }
+
+        .content .card-message .message .user-block .img-user {
+            border-radius: 50%;
+            aspect-ratio: 1/1;
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+
+        .content .card-message .message .user-block .username .name {
+            color: black !important;
+            margin-right: 0.25rem;
+            font-size: var(--fz-sm);
+        }
+
+/*nav*/
+
+.card-header .nav-item {
+    background-color: var(--color) !important;
+    color: black !important;
+    font-weight: bold !important;
+    font-size: var(--fz-md);
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+}
+
+/*form edit*/
+.form-edit-info .form-group-edit {
+    margin: 0.5rem 0;
+    transition: all 0.5s ease-in-out;
+}
+
+    .form-edit-info .form-group-edit label {
+        font-size: var(--fz-md);
+        font-weight: bold;
+    }
+
+    .form-edit-info .form-group-edit input,
+    {
+        font-size: var(--fz-sm);
+        border: 1px solid var(--color);
+        font-weight: 500;
+    }
+
+
+
+    .form-edit-info .form-group-edit .btn-submit-edit {
+        background-color: var(--color);
+        font-size: var(--fz-md);
+    }
+
+        .form-edit-info .form-group-edit .btn-submit-edit:hover {
+            background-color: var(--white);
+            border: 1px solid var(--color);
+        }
+
+.input[type="date"] {
+    color: var(--color) !important;
+}

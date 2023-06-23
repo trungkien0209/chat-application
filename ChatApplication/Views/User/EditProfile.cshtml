@@ -1,0 +1,200 @@
+﻿@model ChatApplication.Models.User
+@{
+    ViewBag.Title = "EditProfile";
+}
+
+
+@using (Html.BeginForm("EditProfile", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="wrapper">
+            <div class="content-wrapper">
+                <section class="content m-2">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <!-- Content Left -->
+                            <div class="col-md-3">
+                                <!-- Card Info -->
+                                <div class="card card-outline m-1 card-info">
+                                    <div class="card-body box-profile">
+                                        <div class="text-center d-flex flex-column align-items-center">
+                                            <div class="border-img">
+                                                <img src="@Url.Content("https://res.cloudinary.com/dpkxwb7kr/image/upload/v1680836786/" + Model.Photo)" alt="User Photo" class="profile-user-img" />
+                                            </div>
+                                        </div>
+
+                                        <h5 class="profile-username text-center">
+                                            <b>@Model.FullName</b>
+                                        </h5>
+
+                                        <div class="see-more">
+                                            <i class="fas fa-chevron-up"></i>
+                                        </div>
+                                        <div class="group-info">
+                                            <ul class="list-group list-group-unbordered mb-3 list-info">
+                                                <li class="list-group-item">
+                                                    <b class="title-list">Email: </b>
+                                                    <span class="float-right">@Model.Email</span>
+                                                </li>
+
+                                                <li class="list-group-item">
+                                                    <b class="title-list">Ngày sinh: </b>
+                                                    <span class="float-right">@Model.Birthday.ToShortDateString()</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Content Right -->
+                            <div class="col-md-9">
+                                <div class="card m-1">
+                                    <div class="card-header p-2">
+                                        <ul class="nav nav-pills">
+                                            <li class="nav-item nav-list ">
+
+                                                <div class="nav-link nav-item">
+                                                    <i class="fas fa-edit"></i><span class="mx-2">Chỉnh sửa thông tin<span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-body  d-flex flex-column gap-2">
+                                        <form class="form-horizontal form-edit-info">
+                                            <div class="form-group row form-group-edit">
+                                                <label for="inputName" class="col-sm-2 col-form-label">Tên người dùng</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" name="FullName" class="form-control" value="@Model.FullName" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-group-edit row">
+                                                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                                <div class="col-sm-10">
+                                                    <input type="email" name="Email" class="form-control" value="@Model.Email" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-group-edit row">
+                                                <label for="inputDate" class="col-sm-2 col-form-label">Ngày sinh</label>
+                                                <div class="col-sm-10">
+                                                    <input type="date" name="Birthday" class="form-control" value="@Model.Birthday.ToString("yyyy-MM-dd")" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group form-group-edit row">
+                                                <label for="inputDate" class="col-sm-2 col-form-label">Avatar</label>
+                                                <div class="col-sm-10 d-flex flex-column gap-2">
+                                                    <input type="file" id="Photo" name="Photo" />
+                                                    <img id="previewImage" alt="Preview Image" style="width:100px;height:100px;object-fit:cover" src="@Url.Content("https://res.cloudinary.com/dpkxwb7kr/image/upload/v1680836786/" + Model.Photo)" />
+
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group form-group-edit row">
+                                                <div class="offset-sm-2 col-sm-10 d-flex justify-content-end gap-2">
+                                                    <button type="reset"
+                                                            class="btn btn-reset-edit btn-danger fw-bold">
+                                                        Nhập lại
+                                                    </button>
+                                                    <button type="submit"
+                                                            class="btn btn-submit-edit fw-bold btn-success">
+                                                        Cập nhật
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+<link href="~/Content/Css/Profile.css" rel="stylesheet" />
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.js"></script>
+    <script>
+        //Script card info
+        $(".see-more").on("click", function () {
+            $(".group-info").toggle("slow");
+            icon = $(this).find("i");
+            if (icon.hasClass("fa-chevron-up")) {
+                icon.addClass("fa-chevron-down").removeClass("fa-chevron-up");
+            } else {
+                icon.addClass("fa-chevron-up").removeClass("fa-chevron-down");
+            }
+        });
+        const fileInput = document.getElementById("Photo");
+        const previewImage = document.getElementById("previewImage");
+
+        fileInput.addEventListener("change", function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    previewImage.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        let userIdProfile = parseInt(localStorage.getItem("userIdProfile"));
+        let userId = @Model.ID
+        $(document).ready(function () {
+            input = $(this).find("input");
+            button = $(this).find("button")
+            if (userIdProfile === userId) {
+                input.removeAttr('disabled', 'disabled');
+                button.removeAttr('disabled', 'disabled');
+            } else {
+                input.attr('disabled', 'disabled');
+                button.attr('disabled', 'disabled');
+            }
+
+        })
+
+    </script>
+}
+
+
+<script type="text/javascript">
+    //darkmode
+    var checkbox_toggle = document.getElementById('light-dark');
+    checkbox_toggle.addEventListener('change', function () {
+        // Thêm class dark cho body
+        document.body.classList.toggle('dark');
+    });
+
+    var modal = document.getElementById("modal-setting");
+
+    var btn = document.getElementById("button-modal");
+
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+</script>
+

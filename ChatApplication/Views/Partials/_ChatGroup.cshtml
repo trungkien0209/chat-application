@@ -1,0 +1,130 @@
+﻿@model ChatApplication.Models.ChatGroupModel
+<div class="chat-box" id="Group-@Model.toRoom.RoomID" style="left:0px; right:0px; width:100%; height:100%">
+    @Html.HiddenFor(m => m.toRoom.RoomID, new { @id = "toGroupId" })
+    <div class="header-chat">
+        <div class="imgtext">
+            <div class="user-avatar">
+                <img src="https://cdn-icons-png.flaticon.com/512/166/166258.png" class="img-cover" />
+            </div>
+            <h3>
+                @Model.toRoom.RoomName
+                <br />
+                <span></span>
+            </h3>
+
+        </div>
+    </div>
+    <!-- Chat box-->
+    <div class="chatbox">
+        @foreach (var message in Model.Messages)
+        {
+            <div class="mess @message.Class">
+                <p style="color:black">
+                    @message.Message
+                    <br /><span>@message.UserName</span>
+                </p>
+            </div>
+
+        
+        }
+    </div>
+    <!-- Chat input-->
+
+    <div class="emoji-container">
+        <span id="emoji1" onclick="emoji(this.id)">&#128512;</span>
+        <span id="emoji2" onclick="emoji(this.id)">&#128513;</span>
+        <span id="emoji3" onclick="emoji(this.id)">&#128514;</span>
+        <span id="emoji4" onclick="emoji(this.id)">&#128515;</span>
+        <span id="emoji5" onclick="emoji(this.id)">&#128516;</span>
+        <span id="emoji6" onclick="emoji(this.id)">&#128517;</span>
+        <span id="emoji7" onclick="emoji(this.id)">&#128518;</span>
+        <span id="emoji8" onclick="emoji(this.id)">&#128519;</span>
+        <span id="emoji9" onclick="emoji(this.id)">&#128520;</span>
+        <span id="emoji10" onclick="emoji(this.id)">&#128521;</span>
+        <span id="emoji11" onclick="emoji(this.id)">&#128522;</span>
+        <span id="emoji12" onclick="emoji(this.id)">&#128523;</span>
+        <span id="emoji13" onclick="emoji(this.id)">&#128524;</span>
+        <span id="emoji14" onclick="emoji(this.id)">&#128525;</span>
+    </div>
+    <div class="chat-input">
+        @*<input type="text" id="input-field" onkeyup="sendMessage(this, event);" placeholder="Nhập tin nhắn" />*@
+        <div class="col-xs-12 chat-box-input">
+            <input class="message-input form-control" id="textInput" onkeyup="sendMessageGroup(this, event);" placeholder="Nhập tin nhắn" />
+        </div>
+        <ion-icon name="happy-outline" onclick="show_emoji()" style="margin-right: 70px;"></ion-icon>
+        <ion-icon name="send" id="btnsend" onclick="sendMessageGroup($('#textInput'), event);"></ion-icon>
+    </div>
+</div>
+
+
+
+<link rel="stylesheet" href="file/to/path/css/emojionearea.min.css">
+<link href="~/Content/Css/HomeChat.css" rel="stylesheet" />
+<script type="text/javascript" src="file/to/path/js/emojionearea.min.js"></script>
+
+<script type="text/javascript">
+    //darkmode
+    var checkbox_toggle = document.getElementById('light-dark');
+    checkbox_toggle.addEventListener('change', function () {
+        // Thêm class dark cho body
+        document.body.classList.toggle('dark');
+    });
+
+    var modal = document.getElementById("modal-setting");
+
+    var btn = document.getElementById("button-modal");
+
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+</script>
+
+
+<!--Message+icon-->
+<script>
+    
+
+</script>
+
+
+<!--Icon-->
+<script>
+    var click = false;
+    function show_emoji() {
+        if (click == false) {
+            document.getElementsByClassName("emoji")[0].style.height = "142px";
+            document.getElementsByClassName("emoji")[0].style.padding = "8px 0px";
+            click = true;
+        }
+        else {
+            document.getElementsByClassName("emoji")[0].style.height = "0px";
+            document.getElementsByClassName("emoji")[0].style.padding = "0px";
+            click = false;
+        }
+    }
+    function emoji(emoji) {
+        document.getElementsByClassName('message-input')[0].value += document.getElementById(emoji).innerHTML;
+    }
+</script>
+
+<!--show emoji-->
+<script>
+    function show_emoji() {
+        var emoji_container = document.querySelector(".emoji-container");
+        if (emoji_container.style.display === "none") {
+            emoji_container.style.display = "block";
+        } else {
+            emoji_container.style.display = "none";
+        }
+    }
+
+</script>
+
+
+
